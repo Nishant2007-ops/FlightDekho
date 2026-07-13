@@ -22,7 +22,7 @@ This project was developed as my **CS50P (CS50's Introduction to Programming wit
 ## Technologies Used
 
 * Python 3
-* Streamlit
+* Supabase
 * SQLite
 * Pandas
 * Requests
@@ -49,7 +49,7 @@ FlightDekho/
 ├── README.md
 └── .streamlit/
     └── secrets.toml       # Local API secrets (not committed)
-```
+```+ supabase_client.py
 
 ---
 
@@ -129,7 +129,7 @@ This project helped me gain practical experience with:
 
 * Object-Oriented Programming
 * API integration
-* SQLite database management
+* Supabase database management
 * User authentication
 * Password hashing
 * Data processing using Pandas
