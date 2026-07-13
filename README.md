@@ -1,33 +1,34 @@
 # ✈️ FlightDekho
 
-FlightDekho is a modern flight search web application built using **Python** and **Streamlit**. It enables users to create an account, log in securely, and search for real-time flight information through an aviation API. The project combines user authentication, database management, API integration, and an intuitive web interface into a single application.
+FlightDekho is a modern flight information web application built using **Python**, **Streamlit**, and **Supabase**. It enables users to create secure accounts, store user information in a cloud PostgreSQL database, and search for real-time flight information using an aviation API.
 
-This project was developed as my **CS50P (CS50's Introduction to Programming with Python) Final Project**, demonstrating practical Python programming skills and the integration of multiple technologies.
+The project demonstrates full-stack Python development by combining user authentication, cloud database integration, API consumption, and an interactive web interface.
 
 ---
 
 ## Features
 
-* 🔐 Secure user registration and login
+* 🔐 Secure user registration
 * 🔒 Password hashing using `bcrypt`
-* 🗄️ SQLite database for user management
-* ✈️ Real-time flight search using an aviation API
-* 🛫 Airport selection using airport codes
-* 📊 Clean presentation of flight information
-* 🎨 Modern and responsive Streamlit interface
-* ⚠️ User-friendly error handling and validation
+* ☁️ Cloud database powered by **Supabase (PostgreSQL)**
+* 📧 Email-based user accounts
+* ✈️ Real-time flight information using an Aviation API
+* 🛫 Airport selection using IATA airport codes
+* 📊 Clean and responsive Streamlit interface
+* ⚠️ User-friendly validation and error handling
 
 ---
 
 ## Technologies Used
 
 * Python 3
-* Supabase
-* SQLite
+* Streamlit
+* Supabase (PostgreSQL)
+* bcrypt
 * Pandas
 * Requests
-* bcrypt
 * Aviation API
+* Git & GitHub
 
 ---
 
@@ -36,20 +37,20 @@ This project was developed as my **CS50P (CS50's Introduction to Programming wit
 ```text
 FlightDekho/
 │
-├── code.py                # Main application
-├── api.py                 # Handles API requests
-├── parser.py              # Processes API responses
-├── database.py            # Database functions
-├── airports.py            # Airport code data
-├── air_users.db           # SQLite database (generated locally)
+├── code.py                  # Main application
+├── api.py                   # Handles Aviation API requests
+├── parser.py                # Processes API responses
+├── database.py              # Database operations
+├── supabase_client.py       # Supabase connection
+├── airports.py              # Airport data
 ├── pages/
-│   └── dashboard.py       # Dashboard page
-├── assets/                # Images and logos (if applicable)
+│   └── dashboard.py         # Dashboard page
+├── .streamlit/
+│   └── secrets.toml         # Local secrets (not committed)
 ├── requirements.txt
 ├── README.md
-└── .streamlit/
-    └── secrets.toml       # Local API secrets (not committed)
-```+ supabase_client.py
+└── .gitignore
+```
 
 ---
 
@@ -58,7 +59,7 @@ FlightDekho/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/FlightDekho.git
+git clone https://github.com/Nishant2007-ops/FlightDekho.git
 cd FlightDekho
 ```
 
@@ -68,15 +69,24 @@ cd FlightDekho
 pip install -r requirements.txt
 ```
 
-### 3. Configure your API key
+### 3. Configure Streamlit Secrets
 
-Create a `.streamlit/secrets.toml` file:
+Create the file:
 
-```toml
-API_KEY = "YOUR_API_KEY"
+```text
+.streamlit/secrets.toml
 ```
 
-Replace `YOUR_API_KEY` with your own API key.
+Add your credentials:
+
+```toml
+Aviation_api_key = "YOUR_AVIATION_API_KEY"
+
+SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL"
+SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY"
+```
+
+> **Important:** Never commit `secrets.toml` to GitHub.
 
 ### 4. Run the application
 
@@ -84,42 +94,39 @@ Replace `YOUR_API_KEY` with your own API key.
 streamlit run code.py
 ```
 
-The application will open automatically in your browser.
-
 ---
 
 ## How It Works
 
-1. Register a new account.
-2. Log in securely using your credentials.
-3. Choose departure and destination airports.
-4. Submit your search request.
-5. FlightDekho retrieves flight data from the aviation API.
-6. The application processes and displays the results in a user-friendly format.
+1. Users create an account with their name, email, age, gender, and password.
+2. Passwords are securely hashed using `bcrypt`.
+3. User information is stored in a Supabase PostgreSQL database.
+4. Users can search for flight information.
+5. FlightDekho fetches live flight data from the Aviation API.
+6. Search results are displayed in an easy-to-read interface.
 
 ---
 
 ## Security
 
 * Passwords are never stored in plain text.
-* User passwords are hashed using `bcrypt`.
-* API keys are stored in Streamlit Secrets and are not uploaded to GitHub.
-* Sensitive files such as databases and secret keys are excluded using `.gitignore`.
+* Passwords are hashed using `bcrypt`.
+* API keys and Supabase credentials are stored in Streamlit Secrets.
+* Sensitive files are excluded using `.gitignore`.
 
 ---
 
 ## Future Improvements
 
-Some features planned for future versions include:
-
-* ❤️ Favorite routes
-* 📅 Flight history
-* 🌍 Interactive route maps
-* 💸 Fare comparison charts
-* 🔔 Flight price alerts
-* 🤖 AI-powered travel recommendations
-* 📱 Mobile-responsive enhancements
+* 🔑 User login
+* 🔐 Google Sign-In
+* ❤️ Favourite airports
+* 📜 Flight search history
+* 📍 Saved routes
+* 🌤 Weather information for destinations
+* 📱 Improved mobile responsiveness
 * 🌙 Dark mode
+* 📈 Flight analytics dashboard
 
 ---
 
@@ -127,23 +134,26 @@ Some features planned for future versions include:
 
 This project helped me gain practical experience with:
 
-* Object-Oriented Programming
-* API integration
-* Supabase database management
-* User authentication
-* Password hashing
-* Data processing using Pandas
-* Streamlit application development
+* Object-Oriented Programming (OOP)
+* REST API integration
+* Cloud database management using Supabase
+* Password hashing with `bcrypt`
+* Streamlit web application development
+* PostgreSQL fundamentals
 * Git and GitHub
-* Deploying Python web applications
+* Deploying Python applications
 
 ---
 
 ## Author
 
-**Nishant LADWAL**
+**Nishant Ladwal**
 
-Student, Mathematics and Computing
+Mathematics and Computing
 Indian Institute of Technology (IIT) Ropar
 
 ---
+
+## License
+
+This project is intended for educational and learning purposes.
