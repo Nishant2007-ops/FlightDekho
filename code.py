@@ -10,8 +10,9 @@ st.set_page_config(
 database.create_database()
 
 class User:
-    def __init__(self, name: str, age: int, gender: str, password: str):
+    def __init__(self, name: str,email : str, age: int, gender: str, password: str):
         self.name = name
+        self.email = email
         self.age = age
         self.gender = gender
         self.__password = bcrypt.hashpw(
@@ -27,11 +28,12 @@ class User:
 
     def send_to_database(self):
         database.insert_user(
-            self.name,
-            self.age,
-            self.gender,
-            self.__password.decode()
-        )
+        self.name,
+        self.email,
+        self.age,
+        self.gender,
+        self.__password.decode() )
+
 
 # ---------------- CSS ---------------- #
 
@@ -121,6 +123,7 @@ with left:
 
         with col1:
             name = st.text_input("👤 Name")
+            email = st.text_input("📧 Email")
 
         with col2:
             age = st.number_input(
@@ -175,9 +178,16 @@ with right:
 if submitted:
 
     name = name.strip()
+    email = email.strip().lower()
 
     if not name:
         st.error("Please enter your name.")
+
+    elif not email:
+        st.error("Please enter your email.")
+
+    elif database.email_exists(email):
+        st.error("Email already exists.")
 
     elif len(password) < 6:
         st.error("Password must contain at least 6 characters.")
@@ -186,17 +196,14 @@ if submitted:
         st.error("Age must be at least 16.")
 
     else:
-        user = User(name, age, gender, password)
+        user = User(name, email, age, gender, password)
         user.send_to_database()
+
         st.session_state["logged_in"] = True
         st.session_state["username"] = name
 
         st.success("🎉 Registration Successful!")
         st.balloons()
-        st.session_state["logged_in"] = True
-        st.session_state["username"] = name
-
-        st.write("✅ Session state updated")
 
         st.switch_page("pages/dashboard.py")
 

@@ -1,46 +1,29 @@
-import sqlite3
+from supabase_client import supabase
 
 def create_database():
-    with sqlite3.connect("air_users.db") as connection:
-        cursor = connection.cursor()
+    pass
 
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            age INTEGER,
-            gender TEXT,
-            password TEXT
-        )
-        """)
+def insert_user(name, email, age, gender, password):
+    supabase.table("users").insert({
+        "name": name,
+        "email": email,
+        "age": age,
+        "gender": gender,
+        "password": password
+    }).execute()
 
-def insert_user(name, age, gender, password):
-    with sqlite3.connect("air_users.db") as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("""
-        INSERT INTO users(name, age, gender, password)
-        VALUES (?, ?, ?, ?)
-        """, (name, age, gender, password))
+def email_exists(email):
+    response = (
+        supabase.table("users")
+        .select("id")
+        .eq("email", email)
+        .execute()
+    )
+    return len(response.data) > 0
 
 def delete_user(user_id):
-    with sqlite3.connect("air_users.db") as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
-
+    supabase.table("users").delete().eq("id", user_id).execute()
 
 def getdata_users():
-    with sqlite3.connect("air_users.db") as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("SELECT * FROM users")
-
-        return cursor.fetchall()
-
-    
-if __name__ == "__main__":
-    create_database()
-    print(getdata_users())
-
-
+    response = supabase.table("users").select("*").execute()
+    return response.data
